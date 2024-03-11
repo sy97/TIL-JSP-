@@ -18,11 +18,16 @@
 	%>
 	<br><br>
 	<h2>pageContext에 값 저장</h2>
-	<% 
+	<%
 		pageContext.setAttribute("k", 1000);
 	%>
 	
-	
+	<br><br>
+	<h2>pageContext를 이용해서 application에 값 저장</h2>
+	<%
+		//sessionscope도있고, requestscope도있음.
+		pageContext.setAttribute("x", 5000, pageContext.APPLICATION_SCOPE);
+	%>
 	
 </body>
 </html>

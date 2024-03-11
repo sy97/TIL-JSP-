@@ -11,11 +11,13 @@
 	
 	<br><br>
 	<h2>application에 값 확인</h2>
-	<%=application.getAttribute("j")%>
+	<%=application.getAttribute("j")%><br>
+	<%=application.getInitParameter("company")%>
 	
 	<br><br>
 	<h2>pageContext에 값 확인</h2>
-	<%=pageContext.setAttribute("k", 1000)%>
+	<%=pageContext.getAttribute("k")%><br>
+	<%=pageContext.getAttribute("x", pageContext.APPLICATION_SCOPE)%>
 
 </body>
 </html>
