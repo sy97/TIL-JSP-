@@ -9,8 +9,9 @@
 	<form action = "login.jsp" method="post" required="required" />
 	ID : <input type="text" name="ID" required="required"/>
 	<br><br>
-	PW : <input type="password" name="PW" />
+	PW : <input type="password" name="PW" /><br>
 	<input type ="submit" value="login" />
+	<input type="reset" value="reset"/>
 	</form>
 	
 	<%
@@ -25,7 +26,6 @@
 	if(id_input != null && pw_input != null){
 	if(id_input.equals(id) && pw_input.equals(pw)){
 		session.setAttribute("id", id_input);
-		session.setAttribute("pw", pw_input);
 		
 		response.sendRedirect("index.jsp");	
 	}

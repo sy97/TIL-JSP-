@@ -18,27 +18,26 @@
 </head>
 <body>
 	<%
-	if(session.getAttribute("id")==null && session.getAttribute("pw")==null ){
+	if(session.getAttribute("id")!=null){
 	%>
-	
-	<h2>&#127808;환영합니다.&#127808;</h2>
-		<a href="login.jsp">&#128274; 로그인</a>
+	<h2>soyeong님, 환영합니다.&#128151;</h2>
+		
+		<a href="logout.jsp">&#128275; 로그아웃</a>
 		<br><br>
-		<a href="shop.jsp">&#127873; 쇼핑몰</a>		
+		<a href="shop.jsp">&#127873; 쇼핑몰</a>	
 	
 	<%
 	}
 	else{
-		if(session.getAttribute("id").equals("soyeong") 
-			&& session.getAttribute("pw").equals("1234")){
-	%>
-		<h2>soyeong님, 환영합니다.&#128151;</h2>
 		
-		<a href="logout.jsp">&#128275; 로그아웃</a>
+	%>
+		<h2>&#127808;환영합니다.&#127808;</h2>
+		<a href="login.jsp">&#128274; 로그인</a>
 		<br><br>
 		<a href="shop.jsp">&#127873; 쇼핑몰</a>		
+		
 	<% 
-		}
+	
 	}
 	%>
 </body>
