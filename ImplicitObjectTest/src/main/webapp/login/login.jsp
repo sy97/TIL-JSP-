@@ -23,25 +23,25 @@
 	String id = "soyeong";
 	String pw = "1234";
 			
-	if(id_input != null && pw_input != null){
-	if(id_input.equals(id) && pw_input.equals(pw)){
+	//비교순서를 바꿔주면 if문 또 하나 쓰지 않아도됨.
+	if(id.equals(id_input) && pw.equals(pw_input)){
 		session.setAttribute("id", id_input);
 		
 		response.sendRedirect("index.jsp");	
 	}
-	else if(id_input.equals(id) && !pw_input.equals(pw)){
+	else if(id.equals(id_input) && !pw.equals(pw_input)){
 	%>	
 		<br>
 		PW가 틀렸습니다.&#128531;
 	<% 
 		}
-	else if(!id_input.equals(id) && pw_input.equals(pw)) {		
+	else if(!id.equals(id_input) && pw.equals(pw_input)) {		
 	%>
 		<br>
 		ID가 틀렸습니다.&#128531;
 	<%
 		}
-	}
+
 	%>
 
 

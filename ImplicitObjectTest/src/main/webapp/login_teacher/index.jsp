@@ -26,7 +26,8 @@ else {
 	로그인을 해주세요.<br><br>
 	
 	<ul>
-		<li><a href="login.jsp">로그인</a></li>
+		<!-- 로그인 페이지는 어디에서든 누를 수 있으니까, index눌렀을 때 인덱스로 이동할 수 있게. -->
+		<li><a href="login.jsp?menu=index">로그인</a></li>
 		<li><a href="shop.jsp">쇼핑몰</a></li>
 	</ul>
 <%
