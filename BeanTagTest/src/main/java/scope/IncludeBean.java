@@ -1,8 +1,13 @@
 package scope;
 
+import java.util.Timer;
+
 public class IncludeBean {
 	private String header;
 	private String footer;
+	
+	Timer t = new Timer();
+	
 	
 	public void setHeader(String header) {
 		this.header = header;
