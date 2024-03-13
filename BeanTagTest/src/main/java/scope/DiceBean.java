@@ -6,12 +6,9 @@ public class DiceBean {
 	private int min;
 	private int max;
 	private Random random = new Random();
-	private int cnt;
+	private int cnt=0;
 
-	
-	public DiceBean() {
-		cnt++;
-	}
+
 	
 	public void setMinNumber(int num) {
 		this.min = num;
@@ -27,8 +24,9 @@ public class DiceBean {
 		return random.nextInt(max-min+1) + min;
 	}
 	
+	//return이므로, 넘겨주고 증가하면 안되고 증가하고 넘겨줘야하니까 전위증가로.
 	public int getCounter() {
-		return cnt;
+		return ++cnt;
 	}
 	
 }

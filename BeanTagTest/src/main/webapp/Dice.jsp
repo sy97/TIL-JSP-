@@ -6,7 +6,7 @@
 <title>Dice.jsp</title>
 </head>
 <body>
-	<jsp:useBean id="dice" class="scope.DiceBean" scope="page" />
+	<jsp:useBean id="dice" class="scope.DiceBean" scope="session" />
 	<jsp:setProperty property="minNumber" name="dice" value="1"/>
 	<jsp:setProperty property="maxNumber" name="dice" value="6"/>
 	<h1>주사위 게임</h1>
