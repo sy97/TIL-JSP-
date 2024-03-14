@@ -1,3 +1,4 @@
+<%@ page session="true" %>
 <%@ page contentType="text/html; charset=utf-8" %>
 <!DOCTYPE html>
 <html>
@@ -12,8 +13,10 @@
 	<!-- 처음한번만 실행되게끔 사이에 끼워주기. -->
 	<jsp:setProperty property="newVisit" name="counter" value="1"/>
 	</jsp:useBean>
-	
 	<jsp:setProperty property="restart" name="counter"/>
+	
+
+	
 	<h2>전체 방문자 수 : <jsp:getProperty property="visitCount"
 	name="counter"/> </h2>
 	
@@ -22,6 +25,8 @@
 		&nbsp;&nbsp;&nbsp;
 		<input type="submit" name="restart" value="카운터를 0으로 리셋"/>
 	</form>
+	
+	
 </body>
 </html>
 

@@ -1,5 +1,7 @@
 package mybean;
 
+import java.util.Date;
+
 public class CarDto {
 	//이 두개를 묶어서 하나의 데이터처럼 쓰겠다.
 	private String plateNumber;
@@ -13,6 +15,14 @@ public class CarDto {
 	
 	//생성자를 만들어두고나서는, 기본 생성자를 명시해두는게 좋음.
 	public CarDto() {}
+
+	public String getPlateNumber() {
+		return plateNumber;
+	}
+
+	public Date getParkingTime() {
+		return new Date(parkingTime);
+	}
 	
 	
 }

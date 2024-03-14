@@ -1,19 +1,30 @@
 package scope;
 
-public class CounterBean {
-	private int count = 0;
+import javax.servlet.http.HttpSession;
 
+public class CounterBean {
+	private int visit = 0;
+
+	public CounterBean() {
+	
+	}
+	
 	public void setNewVisit(int n) {
 		//value에 넘겨준 값 받아오기
-		count = n;
+		visit = n;
 	}
 	
 	public void setRestart(boolean b) {
-		count = 0;
+		visit = 0;
 	}
 	
 	public int getVisitCount() {
 		//새로고침 누를 때마다 증가시키기
-		return count++;
+		if(visit != 1) {
+			return visit++;
+		}
+		else {
+			return visit;
+		}
 	}
 }
