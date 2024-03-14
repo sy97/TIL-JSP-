@@ -25,7 +25,7 @@ public class TimerBean {
 		//이 메서드를 호출했을 때 그 때가 몇시인지 확인해야 하기 때문에 다 메서드마다 적어줘야함.
 		lastAccessTime = System.currentTimeMillis();
 		
-		//현재시간 - 리셋메서드호출된 시간 
+		//현재 메서드가 호출된 시간 - 리셋메서드호출된 시간. 리셋 메서드 호출된시간이 starttime에 다시 담겼으니까. 
 		return (lastAccessTime-startTime) / 1000;
 	}
 	
@@ -33,7 +33,6 @@ public class TimerBean {
 	public void setRestart(boolean b) {
 		lastAccessTime = System.currentTimeMillis();
 		//타이머를 리셋한걸 알아야함.
-		
 		//스타트 타임에 다시 현재시간으로 재세팅 되어야함.
 		startTime=System.currentTimeMillis();
 	}
@@ -50,7 +49,7 @@ public class TimerBean {
 	public long getElapsedTimeAfterLastAccess() {
 		//다른 프로퍼티가 호출되고나서의 시간은 lastAccessTime에 모두 저장되어있음.
 		long current = System.currentTimeMillis();
-		//lastAccessTime에서 현재시간 빼주기 
+		//현재시간에서 lastAccessTime 빼주기 
 		long elapsed = (current - lastAccessTime) / 1000;
 		
 		lastAccessTime = System.currentTimeMillis();

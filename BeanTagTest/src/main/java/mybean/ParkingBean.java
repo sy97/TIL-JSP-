@@ -22,6 +22,7 @@ public class ParkingBean {
 		for(int i=0; i<carList.size(); i++) {
 			//뭉탱이에서 차 번호만 가져오기.
 			//equals로 비교해야됨. string이니까 !!
+			//carList의 반화 타입이 carDto라는 객체니까, get메서드를 사용할 수 있음.
 			if(plate.equals(carList.get(i).getPlateNumber())) {
 				carList.remove(i);
 				break;
