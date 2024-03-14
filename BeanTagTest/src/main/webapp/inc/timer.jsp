@@ -10,8 +10,10 @@
 	<!-- scope를 세션으로 해줘야 사용자마다의 시간이 저장됨. 
 	세션으로 해줄 경우, 브라우저가 다르면 각자 카운트함. but application으로 해주면
 	시간이 똑같이 나옴. -->
-	<jsp:useBean id="timer" class="scope.TimerBean" scope="session"/>
+	<jsp:useBean id="timer" class="scope.TimerBean" scope="session">
+	<!-- 처음에만 보이고 다음부턴 안보여주게 객체 생성될 때 한번만 보이도록 여기에 넣어주기. -->
 	세션 시작합니다. 타이머 작동을 시작합니다.<br><br>
+	</jsp:useBean>	
 	
 	<!-- bean의 모든 메서드가 프로퍼티. 액션태그로 불러서 쓸 수 있는거는 모두 프로퍼티.
 	 다음 메서드 실행하기까지의 경과시간 -->
