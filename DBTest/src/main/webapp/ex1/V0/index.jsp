@@ -61,7 +61,7 @@
 					<td><%=rs.getString("e_pass") %></td>
 					<td><%=rs.getString("e_address") %></td>
 					<!-- 사번으로만 비교해서 수정할 수 있게, 사번만 갖고 넘어가기. -->
-					<td><a href="updateEmp.jsp??e_no=<%=rs.getInt("e_no") %>">수정</a></td>
+					<td><a href="updateEmp.jsp?e_no=<%=rs.getInt("e_no") %>">수정</a></td>
 				</tr>	
 				
 			<% 

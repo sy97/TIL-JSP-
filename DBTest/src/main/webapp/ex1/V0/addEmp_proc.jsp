@@ -14,7 +14,6 @@
 	
 	<%
 	request.setCharacterEncoding("utf-8");
-	response.setCharacterEncoding("utf-8");
 	 
 	 String id = request.getParameter("e_id");
 	 String name = request.getParameter("e_name");
