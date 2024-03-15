@@ -6,35 +6,15 @@ public class Main {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		
-		char[] alph = new char[26];
-		for(int i = 0; i < alph.length; i++) {
-			alph[i] = (char)(97+i);
-		}
+		//문자열 입력
+		String str =sc.nextLine();
+		//공백제거
+		String strtrim = str.trim();
+		//자른 문자열 담을 배열
+		String[] strarr = strtrim.split(" ");
 		
-	
-		
-		String S = sc.next();
-		char[] arr = S.toCharArray();
-		
-		
-		for(int i = 0; i <alph.length; i++) {
-			boolean found = false;
-			for(int k = 0; k <arr.length; k++) {
-				if(alph[i] == arr[k]) {
-					System.out.print(i);
-					System.out.print(" ");
-					found = true;
-					break;
-				}
-				
-			}
-			
-			if(!found) {
-				System.out.print(-1);
-				System.out.print(" ");
-			}
-			
-		}
+		//배열 길이 출력
+		System.out.println(strarr.length);
 		
 	}
 
