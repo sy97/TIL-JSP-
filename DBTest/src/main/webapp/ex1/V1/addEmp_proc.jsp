@@ -15,6 +15,7 @@
 	<%
 	request.setCharacterEncoding("utf-8");
 	 
+	//이 데이터를 또 쓸 수 있으니까 bean에 저장하기.
 	 String id = request.getParameter("e_id");
 	 String name = request.getParameter("e_name");
 	 String pass = request.getParameter("e_pass");
