@@ -15,6 +15,7 @@ import mybean.dto.Employee;
 		private ResultSet rs;
 		private String keyword;
 		private String searchText;
+		private ArrayList<Employee> empList = new ArrayList<Employee>();
 		
 		
 	//생성자로 DB연결되게. 생성자로 해주기때문에 DB연결 메서드를 매번 써주지않아도됨.
@@ -151,12 +152,38 @@ import mybean.dto.Employee;
 		catch(Exception err) {System.out.println("deleteEmp()에서 오류 : " +err);}
 		finally {freeConn();}
 		}
+
 	
 	//index.jsp 다중값이므로 인덱스프로퍼티로.
-	public ArrayList<Employee> getList(){
-		return null;
-	}
+	public ArrayList<Employee> getList(String keyword, String serachText){
+		
+		String sql = null;
+		try {
+			if(searchText.isEmpty()){
+				sql = "select * from tblEmp order by e_no";
+				}
+					
+			else {
+				sql = "select * from tblEmp where " + keyword +" like '%" + searchText +"%'";
+						
+				}
+			}
+		catch(NullPointerException Err) {
+				sql = "select * from tblEmp order by e_no";
+			}
+				
+		try {
+			Employee emp = new Employee();
+			while(rs.next()){
+				empList.add(emp);
+			}
+		}	
+		catch(Exception err) { System.out.println("getList()에서 오류 : " + err);}
+		finally { freeConn();}
+		
+		return empList;
 	
 	
 	}
+ }	
 
