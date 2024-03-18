@@ -9,7 +9,8 @@
 <title>deleteEmp.jsp 값 삭제</title>
 </head>
 <body>
-	<%
+	
+		<%
 	 
 	 	request.setCharacterEncoding("utf-8");
 	
@@ -51,5 +52,6 @@
 			if(stmt != null) stmt.close();
 		}
 	%>
+
 </body>
 </html>

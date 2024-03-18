@@ -1,3 +1,4 @@
+<%@page import="mybean.dto.Employee"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.DriverManager"%>
 <%@page import="java.sql.ResultSet"%>
@@ -10,72 +11,46 @@
 <meta charset="utf-8">
 <title>updateEmp.jsp</title>
 </head>
+	
+	<jsp:useBean id="dao" class="mybean.dao.EmployeeDao"/>
+	
 	<%
 		//index.jsp로 받아온 e_no
 		String e_no = request.getParameter("e_no");
-		String e_id=null, e_name=null, e_pass=null, e_address=null;
-		
-		
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		
-		try{
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			String url = "jdbc:oracle:thin:@localhost:1521:xe";
-			conn = DriverManager.getConnection(url, "scott", "1111");
-			
-			//사번만 들고가서 , 데이터 꺼내오게끔. 
-			String sql = "select * from tblEmp where e_no=" + e_no;
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery(sql);
-			
-			if(rs.next()) {
-				
-				e_id = rs.getString("e_id");
-				e_name = rs.getString("e_name");
-				e_pass = rs.getString("e_pass");
-				e_address = rs.getString("e_address");
-			
-			}
-		}
-		catch(Exception err){
-			err.printStackTrace();
-		}
-		finally{
-			if(conn != null) conn.close();
-			if(stmt != null) stmt.close();
-			if(rs != null) rs.close();
-		}
+	
+		//dao객체 생성후, 위에 받아온 e_no를 get메서드에 매개변수로 넘겨주기.
+		//return 형태가 Employee객체니까 Employee로 받아야함.
+		// 그래서 이 사번에 해당하는 정보를 가져오기.
+		Employee emp = dao.getEmp(e_no);
 	%>
+	
 <body>
 	<h1>직원 수정</h1>
 	<form action="updateEmp_proc.jsp" method="post">
 	<!-- 겟방식으로 바로 주소에 넘겨줄 수 있지만, 좀 지저분함. 히든 태그 사용하면 됨.-->
-	<input type="hidden" name="e_no" value="<%=e_no %>"/>
+	<input type="hidden" name="e_no" value="<%=e_no%>"/>
 		<table border="1">
 			<tr>
 				<th>아이디</th>
-				<!-- 아이디는 수정하지못하게 하려면? readonly-->
-				<td><input type="text" name="e_id" value="<%=e_id%>" readonly/></td>
+				<td><input type="text" name="e_id" value="<%=emp.getE_id()%>" readonly/></td>
 			</tr>
 			<tr>
 				<th>이름</th>
-				<td><input type="text" name="e_name" value="<%=e_name%>"/></td>
+				<td><input type="text" name="e_name" value="<%=emp.getE_name()%>"/></td>
 			</tr>
 			<tr>
 				<th>패스워드</th>
-				<td><input type="password" name="e_pass" value="<%=e_pass%>"/></td>
+				<td><input type="password" name="e_pass" value="<%=emp.getE_pass()%>"/></td>
 			</tr>
 			<tr>
 				<th>근무지</th>
 				<td>
 					<!-- 내가 조회해서 가져온 e_address라는 값이 지역과 같다면, 이미 선택되어지게. 그래서 그값이 보여지게. -->
 					<select name="e_address">
-						<option <%if(e_address.equals("서울")) {%> selected <%}%>>서울</option>
-						<option <%if(e_address.equals("광주")) {%> selected <%}%>>광주</option>
-						<option <%if(e_address.equals("부산")) {%> selected <%}%>>부산</option>
-						<option <%if(e_address.equals("제주")) {%> selected <%}%>>제주</option>
+						<option <%if(emp.getE_address().equals("서울")) {%> selected <%}%>>서울</option>
+						<option <%if(emp.getE_address().equals("광주")) {%> selected <%}%>>광주</option>
+						<option <%if(emp.getE_address().equals("부산")) {%> selected <%}%>>부산</option>
+						<option <%if(emp.getE_address().equals("제주")) {%> selected <%}%>>제주</option>
 					</select>
 				</td>
 			</tr>

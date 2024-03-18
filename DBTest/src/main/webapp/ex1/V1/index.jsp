@@ -8,6 +8,19 @@
 <head>
 <meta charset="utf-8">
 <title>Insert title here</title>
+<script>
+
+	//숫자 넘겨줘야하므로 ?이하부분도 잘 적어주기.
+	function isDelete(e_no){
+	 let cf = confirm("삭제하시겠습니까?");
+	 if(cf == true){
+		 location.href="deleteEmp.jsp?e_no="+e_no;
+	 }
+	
+	 return;
+	 
+	}
+</script>
 </head>
 <body>
 	<h1>직원 정보</h1>
@@ -96,11 +109,13 @@
 					<td><%=rs.getString("e_address") %></td>
 					<!-- 사번으로만 비교해서 수정할 수 있게, 사번만 갖고 넘어가기. -->
 					<td><a href="updateEmp.jsp?e_no=<%=rs.getInt("e_no") %>">수정</a></td>
-					<td><a href="deleteEmp.jsp?e_no=<%=rs.getInt("e_no") %>">삭제</a></td>
 					
+					<!-- 여기에 Onclick 이벤트를 써줄수는 없음.  -->
+					<td><a href="javascript:isDelete(<%=rs.getInt("e_no")%>)">삭제</a></td>
+		
 				</tr>	
 				
-			<% 
+		<% 
 			}
 			
 		}
