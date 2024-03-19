@@ -15,7 +15,6 @@ import mybean.dto.Employee;
 		private ResultSet rs;
 		private String keyword;
 		private String searchText;
-		private ArrayList<Employee> empList = new ArrayList<Employee>();
 		
 		
 	//생성자로 DB연결되게. 생성자로 해주기때문에 DB연결 메서드를 매번 써주지않아도됨.
@@ -155,35 +154,50 @@ import mybean.dto.Employee;
 
 	
 	//index.jsp 다중값이므로 인덱스프로퍼티로.
-	public ArrayList<Employee> getList(String keyword, String serachText){
+	public ArrayList<Employee> getList(String keyword, String searchText){
+		String sql = "";
+		ArrayList<Employee> list = new ArrayList<Employee>();
 		
-		String sql = null;
 		try {
-			if(searchText.isEmpty()){
+			if(searchText==null || searchText.isEmpty()){
 				sql = "select * from tblEmp order by e_no";
-				}
-					
+			}
+			
+			//where다음에 공백줘야함!!!!!!!!!!
 			else {
 				sql = "select * from tblEmp where " + keyword +" like '%" + searchText +"%'";
-						
-				}
+
 			}
-		catch(NullPointerException Err) {
-				sql = "select * from tblEmp order by e_no";
-			}
-				
-		try {
-			Employee emp = new Employee();
-			while(rs.next()){
-				empList.add(emp);
-			}
-		}	
-		catch(Exception err) { System.out.println("getList()에서 오류 : " + err);}
-		finally { freeConn();}
 		
-		return empList;
+			stmt = conn.prepareStatement(sql);		
+			
+			rs = stmt.executeQuery();
+			
+			//있는 갯수만큼 돌려야하니까, while로. 
+			while(rs.next()) {
+			//db에서 받아온 정보를 dto set메서드에 저장시켜주고, 그걸 list배열에 담기.
+			Employee emp = new Employee();
+			emp.setE_no(rs.getString("e_no"));
+			emp.setE_address(rs.getString("e_address"));
+			emp.setE_id(rs.getString("e_id"));
+			emp.setE_name(rs.getString("e_name"));
+			emp.setE_pass(rs.getString("e_pass"));
+			
+			list.add(emp);
+			}
+		}
+		
+		catch(Exception err){System.out.println("getList()에서 오류 : " + err);}
+	
+		finally{
+			freeConn();
+		}
+	
+		return list;
 	
 	
 	}
+	
+	
  }	
 
