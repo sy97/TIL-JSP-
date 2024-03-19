@@ -38,6 +38,49 @@ public class BoardDao {
 		if(rs != null) try {rs.close();} catch(Exception err) {};
 			
 	}
+
+	private int b_num;
+	private String b_name;
+	private String b_email;
+	private String b_homepage;
+	private String b_subject;
+	private String b_content;
+	private String b_pass;
+	private int b_count;
+	private String b_ip;
+	private String b_regdate;
+	private int pos;
+	private int depth;
+	
+	//PostProc.jsp 
+	public void setEmp(BoardDto board) {
+		String sql = "insert into tblBoard(b_num, b_name, b_email, b_homepage, b_subject, b_content, b_pass)" 
+				+ "values(seq_b_num.nextVal, ?,?,?,?,?,?)";	
+			
+			//db연결은 항상 예외처리해주는것이 좋음. 어떤 일이 일어날지 모르니까.
+			try {	
+				stmt = conn.prepareStatement(sql);		
+				
+				//stmt.setString(1, board.setB_name());
+				stmt.setString(1, board.getB_email());
+				stmt.setString(1, board.getB_name());
+				stmt.setString(1, board.getB_name());
+				stmt.setString(1, board.getB_name());
+				stmt.setString(1, board.getB_name());
+	
+				
+				stmt.executeUpdate();
+			}
+			
+			catch(Exception err){
+				System.out.println("setEmp()에서 오류 : " + err);
+				
+			}
+			finally {
+				//pool.freeConnection(conn,stmt);
+				freeConn();}
+		
+		}
 	
 	//list.jsp에서 사용하기 위한 메서드 준비
 	public ArrayList<BoardDto> getBoardList(String keyword, String searchText){

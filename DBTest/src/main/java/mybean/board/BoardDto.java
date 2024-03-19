@@ -15,6 +15,7 @@ public class BoardDto {
 	private String b_regdate;
 	private int pos;
 	private int depth;
+	
 	public int getB_num() {
 		return b_num;
 	}
