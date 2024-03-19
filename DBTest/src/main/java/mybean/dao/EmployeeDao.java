@@ -203,10 +203,14 @@ import mybean.dto.Employee;
  }	
 */
 
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -218,28 +222,47 @@ import mybean.dto.Employee;
  		private Connection conn;
 		private PreparedStatement stmt;
 		private ResultSet rs;
-		private DBConnectionMgr pool;
+		//private DBConnectionMgr pool;
+		private DataSource ds;
 		
 
+	
 	public EmployeeDao() {
 	try {
 		//직접 DB랑 연결하지 않음. DBCP를 이용.
 		//DBCP의 위치 가져오기.
-		pool = DBConnectionMgr.getInstance();
+		//pool = DBConnectionMgr.getInstance();
 		//위치 확인 후 가서 빌려오기 
-		conn = pool.getConnection();		
+		//conn = pool.getConnection();
+		
+		//톰캣에있는 DBCP사용
+
+		Context ctx = new InitialContext();	
+		ds = (DataSource)ctx.lookup("java:comp/env/jdbc/EmployeeDB");	
+	
+		//연결 객체 빌려오기
+		conn = ds.getConnection();
 	}
+	
 	catch(Exception err){
 		System.out.println("연결 객체 생성 실패 : " +err);
 		}	
 	
-	//freeconnection 메서드 사용해주기.
-	finally {pool.freeConnection(conn,stmt);}
 	}
+
 	//DB와의 작업을 하는 패턴을 dao라고함
 	//사원 정보를 DB에 저장하는 기능을 할 메서드
 	//이미 dto에 변수선언다 해놨으니까 변수는 여기서 가져와주면됨.
 	//addEmp_proc.jsp
+	
+	
+	public void freeConn() {
+		if(conn != null) try {conn.close();} catch(Exception err) {};
+		if(stmt != null) try {stmt.close();} catch(Exception err) {};
+		if(rs != null) try {rs.close();} catch(Exception err) {};
+			
+	}
+	
 	public void setEmp(Employee emp) {
 		String sql = "insert into tblEmp(e_no, e_id, e_name, e_pass, e_address)" 
 				+ "values(seq_eno.nextVal, ?,?,?,?)";	
@@ -260,7 +283,9 @@ import mybean.dto.Employee;
 				System.out.println("setEmp()에서 오류 : " + err);
 				
 			}
-			finally {pool.freeConnection(conn,stmt);}
+			finally {
+				//pool.freeConnection(conn,stmt);
+				freeConn();}
 		
 		}
 	
@@ -294,7 +319,9 @@ import mybean.dto.Employee;
 			
 			catch(Exception err){System.out.println("getEmp()에서 오류 : " + err);}
 			
-			finally {pool.freeConnection(conn,stmt, rs);}
+			finally {
+				//pool.freeConnection(conn,stmt, rs);
+				freeConn();}
 			//return은 try바깥에 있어야함.
 			return emp;	
 
@@ -321,8 +348,10 @@ import mybean.dto.Employee;
 		}
 		catch(Exception err){System.out.println("updateEmp()에서 오류 : " + err);}
 	
-		finally {pool.freeConnection(conn,stmt);}
-	}
+		finally {//pool.freeConnection(conn,stmt);
+			freeConn();}
+		}
+	
 	
 	public void setDeleteEmp(String no) {
 		
@@ -338,7 +367,9 @@ import mybean.dto.Employee;
 		}
 		
 		catch(Exception err) {System.out.println("deleteEmp()에서 오류 : " +err);}
-		finally {pool.freeConnection(conn,stmt);}
+		finally {//pool.freeConnection(conn,stmt);
+			freeConn();
+		}
 		}
 
 	
@@ -378,7 +409,9 @@ import mybean.dto.Employee;
 		
 		catch(Exception err){System.out.println("getList()에서 오류 : " + err);}
 	
-		finally {pool.freeConnection(conn,stmt,rs);}
+		finally {//pool.freeConnection(conn,stmt,rs);
+			freeConn();
+		}
 	
 		return list;
 	
