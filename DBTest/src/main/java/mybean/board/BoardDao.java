@@ -86,11 +86,10 @@ public class BoardDao {
 	public BoardDto getBoard(int num) {
 		
 		//DB에서 조회
-		String sql = "select * from tblBoard where b_num=?";	
+		String getsql = "select * from tblBoard where b_num=?";
 		BoardDto board = new BoardDto();
-		
 			try {	
-				stmt = conn.prepareStatement(sql);		
+				stmt = conn.prepareStatement(getsql);		
 				
 				stmt.setInt(1, num);
 				
@@ -109,9 +108,11 @@ public class BoardDao {
 					board.setB_ip(rs.getString("b_ip"));
 					board.setPos(rs.getInt("pos"));
 					board.setDepth(rs.getInt("depth"));
-
-			
+					
+				
 				}
+			
+				
 			}
 			
 			catch(Exception err){System.out.println("getBoard()에서 오류 : " + err);}
@@ -211,17 +212,15 @@ public class BoardDao {
 		}
 	
 	
-	public int setCount(int num) {
-		String sql = "update tblboard set b_count=? where b_num=?";
-		BoardDto dto = new BoardDto();
-		int count = dto.getB_count();
-		count++;
+
+	public void setCount(int num) {
+		String sql = "update tblboard set b_count = b_count + 1 where b_num=?";
+
 		try {
 			conn = ds.getConnection();
 			stmt = conn.prepareStatement(sql);
-			
-			stmt.setInt(1, count);
-			stmt.setInt(2, num);
+
+			stmt.setInt(1, num);
 			
 			stmt.executeUpdate();
 			
@@ -230,9 +229,10 @@ public class BoardDao {
 	
 		finally {freeConn();}
 	
-		
-		return 0;
+	
 	}
+
+	
 	
 }
 	
