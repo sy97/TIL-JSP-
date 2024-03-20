@@ -1,6 +1,14 @@
 <%@page import="mybean.board.BoardDto"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page contentType="text/html;charset=utf-8" %>
+
+<%
+	int totalRecord = 0; //총 글의 갯수
+	int numPerPage = 10; //한 페이지당 보여질 글의 갯수
+	int totalPage = 0; // 총 페이지 수
+	int nowPage = 0; //현재 페이지 번호
+%>
+
 <HTML>
 <link href="style.css" rel="stylesheet" type="text/css">
 	<script>

@@ -3,6 +3,7 @@ package mybean.board;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -209,7 +210,29 @@ public class BoardDao {
 		finally {freeConn();}
 		}
 	
-
+	
+	public int setCount(int num) {
+		String sql = "update tblboard set b_count=? where b_num=?";
+		BoardDto dto = new BoardDto();
+		int count = dto.getB_count();
+		count++;
+		try {
+			conn = ds.getConnection();
+			stmt = conn.prepareStatement(sql);
+			
+			stmt.setInt(1, count);
+			stmt.setInt(2, num);
+			
+			stmt.executeUpdate();
+			
+		} 	
+		catch(Exception err){System.out.println("setCount()에서 오류 : " + err);}
+	
+		finally {freeConn();}
+	
+		
+		return 0;
+	}
 	
 }
 	

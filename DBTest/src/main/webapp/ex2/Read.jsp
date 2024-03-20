@@ -6,6 +6,7 @@
 </head>
 	
 	<jsp:useBean id="dao" class="mybean.board.BoardDao"/>
+	<jsp:useBean id="dto" class="mybean.board.BoardDto"/>
 	
 	<%
 		//list.jsp로 받아온 b_pass
@@ -15,6 +16,7 @@
 		//return 형태가 Employee객체니까 Employee로 받아야함.
 		// 그래서 이 사번에 해당하는 정보를 가져오기.
 		BoardDto board = dao.getBoard(b_num);
+		dao.setCount(b_num);
 	%>
 <script>
 function list() {
