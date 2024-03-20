@@ -53,47 +53,109 @@ public class BoardDao {
 	private int depth;
 	
 	//PostProc.jsp 
-	public void setEmp(BoardDto board) {
-		String sql = "insert into tblBoard(b_num, b_name, b_email, b_homepage, b_subject, b_content, b_pass)" 
-				+ "values(seq_b_num.nextVal, ?,?,?,?,?,?)";	
+	public void setBoard(BoardDto board) {
+		String sql = "insert into tblboard(b_num," +
+				"b_name, b_email, b_homepage, b_subject, b_content, " +
+				"b_pass, b_count, b_ip, b_regdate, pos, depth) " +
+				"values(seq_b_num.nextVal, ?,?,?,?,?,?, 0, ?, sysdate, 0, 0)";
 			
-			//db연결은 항상 예외처리해주는것이 좋음. 어떤 일이 일어날지 모르니까.
-			try {	
+			try {
+				//db연결 먼저.
 				stmt = conn.prepareStatement(sql);		
 				
-				//stmt.setString(1, board.setB_name());
-				stmt.setString(1, board.getB_email());
+				//jsp에서 set메서드를 통해 저장했으니까, get메서드로 그 값을 가져온다음에, stmt에 담아서
+				//DB에 저장하기. 
 				stmt.setString(1, board.getB_name());
-				stmt.setString(1, board.getB_name());
-				stmt.setString(1, board.getB_name());
-				stmt.setString(1, board.getB_name());
-	
-				
+				stmt.setString(2, board.getB_email());
+				stmt.setString(3, board.getB_homepage());
+				stmt.setString(4, board.getB_subject());
+				stmt.setString(5, board.getB_content());
+				stmt.setString(6, board.getB_pass());
+				stmt.setString(7, board.getB_ip());
 				stmt.executeUpdate();
+	
 			}
 			
-			catch(Exception err){
-				System.out.println("setEmp()에서 오류 : " + err);
-				
-			}
-			finally {
-				//pool.freeConnection(conn,stmt);
-				freeConn();}
+			catch(Exception err){System.out.println("setBoard()에서 오류 : " + err);}
+			finally {freeConn();}
 		
 		}
 	
+	//read.jsp, update.jsp
+	public BoardDto getBoard(int num) {
+		
+		//DB에서 조회
+		String sql = "select * from tblBoard where b_num=?";	
+		BoardDto board = new BoardDto();
+		
+			try {	
+				stmt = conn.prepareStatement(sql);		
+				
+				stmt.setInt(1, num);
+				
+				//조회한 결과를 rs라는 변수에 저장
+				rs = stmt.executeQuery();
+				
+				if(rs.next()) {
+					board.setB_name(rs.getString("b_name"));
+					board.setB_email(rs.getString("b_email"));
+					board.setB_homepage(rs.getString("b_homepage"));
+					board.setB_subject(rs.getString("b_subject"));
+					board.setB_content(rs.getString("b_content"));
+					board.setB_pass(rs.getString("b_pass"));
+					board.setB_count(rs.getInt("b_count"));
+					board.setB_regdate(rs.getString("b_regdate"));
+					board.setB_ip(rs.getString("b_ip"));
+					board.setPos(rs.getInt("pos"));
+					board.setDepth(rs.getInt("depth"));
+
+			
+				}
+			}
+			
+			catch(Exception err){System.out.println("getBoard()에서 오류 : " + err);}
+			
+			finally {freeConn();}
+			//return은 try바깥에 있어야함.
+			return board;	
+
+	}
+	
+	//update_proc.jsp
+	public void updateBoard(BoardDto dto) {
+		
+		try{			
+			//update문으로 바꿔보기
+			String sql = "update tblboard set b_name=?, b_email=?, " +
+					"b_subject=?, b_content=? where b_num=?";
+			conn = ds.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, dto.getB_name());
+			stmt.setString(2, dto.getB_email());
+			stmt.setString(3, dto.getB_subject());
+			stmt.setString(4, dto.getB_content());
+			stmt.setInt(5, dto.getB_num());
+			
+			stmt.executeUpdate();
+
+		}
+		catch(Exception err){System.out.println("updateBoard()에서 오류 : " + err);}
+	
+		finally {freeConn();}
+	}
+	
 	//list.jsp에서 사용하기 위한 메서드 준비
-	public ArrayList<BoardDto> getBoardList(String keyword, String searchText){
+	public List<BoardDto> getBoardList(String keyword, String searchText){
 		String sql = "";
 		ArrayList<BoardDto> list = new ArrayList<BoardDto>();
 		
 		try {
 			if(searchText==null || searchText.isEmpty()){
-				sql = "select * from tblBoard order by b_num";
+				sql = "select * from tblBoard order by b_num desc";
 			}
 		
 			else {
-				sql = "select * from tblBoard where " + keyword +" like '%" + searchText +"%'";
+				sql = "select * from tblBoard where " + keyword +" like '%" + searchText +"%' order by b_num desc";
 
 			}
 		
@@ -131,6 +193,23 @@ public class BoardDao {
 	
 	
 	}
+	
+	public void deleteBoard(int b_num) {
+		String sql = "delete from tblBoard where b_num=?";
+		
+		try {
+		conn = ds.getConnection();
+		stmt = conn.prepareStatement(sql);
+		stmt.setInt(1, b_num);
+		stmt.executeUpdate();
+		
+		}
+		
+		catch(Exception err) {System.out.println("deleteBoard()에서 오류 : " +err);}
+		finally {freeConn();}
+		}
+	
+
 	
 }
 	

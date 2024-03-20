@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=EUC-KR"%>
+<%@ page contentType="text/html; charset=utf-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,26 +6,28 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<%
-	request.setCharacterEncoding("utf-8");
-	%>
+	<%request.setCharacterEncoding("utf-8");%>
 	
-	<!-- bean¿¡ µ¥ÀÌÅÍ ÀúÀåÇÏ±â. -->
+	<!-- beanì— ë°ì´í„° ì €ì¥í•˜ê¸°. -->
 	<jsp:useBean id="dto" class="mybean.board.BoardDto" />
-	<!-- ¸ğµç °ªÀ» ³Ñ°ÜÁÙ°Å´Ï±î *·Î Ã³¸®°¡´É. -->
-	<!-- DB¿¡ ÀúÀåÇÏ±â À§ÇØ Àá½Ã dto¿¡ º¸°ü. -->
+	<!-- ëª¨ë“  ê°’ì„ ë„˜ê²¨ì¤„ê±°ë‹ˆê¹Œ *ë¡œ í•´ì£¼ë ¤ê³ í–ˆëŠ”ë° ì´ê²Œ ë¶ˆê°€ëŠ¥. propertyë‘ ë„˜ì–´ì˜¤ëŠ” nameì´ ë‹¤ë¥´ê¸° ë•Œë¬¸.
+	ê·¸ëŸ¼ ì´ ì´ë¦„í•˜ë‚˜ ë•Œë¬¸ì— í—¤íƒì„ ëª»ë°›ëŠ”ë‹¤. postì´ë¦„ ë°”ê¿”ì£¼ê¸°.
+	 -->
 	<jsp:setProperty property="*" name="dto"/>
 	
-	<!-- dto¿¡ º¸°üµÇ¾îÀÖ´Â Á¤º¸µéÀ» DB¿¡ ÀúÀå. -->
-	<jsp:useBean id="dao" class="mybean.dao.EmployeeDao"/>
-	<!-- °ªÀÌ ¿©·¯°³ÀÌ±â ¶§¹®¿¡ ¾×¼ÇÅÂ±×·Î ³Ñ°ÜÁÙ ¼ö ¾øÀ½. -->
+	
+	<!-- dtoì— ë³´ê´€ë˜ì–´ìˆëŠ” ì •ë³´ë“¤ì„ DBì— ì €ì¥. -->
+	<jsp:useBean id="dao" class="mybean.board.BoardDao"/>
+	<!-- ê°’ì´ ì—¬ëŸ¬ê°œì´ê¸° ë•Œë¬¸ì— ì•¡ì…˜íƒœê·¸ë¡œ ë„˜ê²¨ì¤„ ìˆ˜ ì—†ìŒ. -->
 	<%
-		//dao.setEmp(dto);
+		dao.setBoard(dto);
+		response.sendRedirect("List.jsp");
 	%>
 	
+	
 	<script>
-	alert("Àß Ãß°¡µÇ¾ú½À´Ï´Ù.");
+	alert("ì˜ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	</script>
-
+	
 </body>
 </html>	

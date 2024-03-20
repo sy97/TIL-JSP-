@@ -1,3 +1,4 @@
+<%@page import="mybean.board.BoardDto"%>
 <%@ page contentType="text/html; charset=EUC-KR" %>
 
 <html>
@@ -5,9 +6,9 @@
 <link href="style.css" rel="stylesheet" type="text/css">
 <script>
 	function check() {
-		if (document.form.pass.value == "") {
+		if (document.form.b_pass.value == "") {
 		alert("패스워드를 입력하세요.");
-		form.pass.focus();
+		form.b_pass.focus();
 		return false;
 		}
 		document.form.submit();
@@ -15,6 +16,36 @@
 </script>
 </head>
 <body>
+		<jsp:useBean id="dto" class="mybean.board.BoardDto"/>
+		<jsp:useBean id="dao" class="mybean.board.BoardDao"/>
+	<%
+		int b_num = Integer.parseInt(request.getParameter("b_num"));	
+		BoardDto original = dao.getBoard(b_num);
+
+		//넘겨받는 값이 단일이 아니므로, 액션태그 쓸 수 없음.
+		//넘겨줄 때 아까 설정한 객체를 매개변수로 넘겨줌.
+	try{
+		if(dto.getB_pass().equals(original.getB_pass())){
+			dao.deleteBoard(b_num);
+			response.sendRedirect("List.jsp");
+		}
+		
+		else{	
+		
+	%>
+		<script>
+			alert("비밀번호가 틀렸습니다.");
+			history.back();
+		</script>
+
+	<%
+		}
+	}
+ 	catch(Exception e) {
+ 		
+ 	}
+	%>
+	
 <center>
 <br><br>
 <table width=50% cellspacing=0 cellpadding=3>
@@ -24,13 +55,13 @@
  </tr>
 </table>
 <table width=70% cellspacing=0 cellpadding=2>
-<form name=form method=post action="Delete.jsp" >
+<form name=form method=post action="Delete.jsp?b_num=<%=b_num %>" >
  <tr>
   <td align=center>
    <table align=center border=0 width=91%>
     <tr> 
      <td align=center>  
-	  <input type=password name="pass" size=17 maxlength=15>
+	  <input type=password name="b_pass" size=17 maxlength=15>
 	 </td> 
     </tr>
     <tr>

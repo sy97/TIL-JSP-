@@ -5,23 +5,35 @@
 <link href="style.css" rel="stylesheet" type="text/css">
 	<script>
 		function check(){
-			if(document.search.keyWord.value == ""){
+			if(document.search.searchText.value == ""){
 				alert("검색어를 입력하세요.");
-				document.search.keyWord.focus();
+				document.search.searchText.focus();
 				return;
 			}
 			document.search.submit();
 		}
+		
+		
+		function list() {
+		    window.location.href = 'List.jsp';
+		}
 	</script>
-	<jsp:useBean id="board" class="mybean.board.BoardDao"/>
+	<jsp:useBean id="dao" class="mybean.board.BoardDao"/>
 	
 <BODY>
+		<%
+		request.setCharacterEncoding("utf-8");
+		String keyword = request.getParameter("keyword");
+		String search = request.getParameter("searchText");
+		ArrayList<BoardDto> list = (ArrayList)dao.getBoardList(keyword, search);
+		%>
+		
 	<center><br>
 	<h2>JSP Board</h2>
 	
 	<table align=center border=0 width=80%>
 	<tr>
-		<td align=left>Total :  Articles(
+		<td align=left>Total :<%=list.size()%>  Articles(
 			<font color=red>  1 / 10 Pages </font>)
 		</td>
 	</tr>
@@ -39,27 +51,30 @@
 						<td> 조회수 </td>
 					</tr>
 			</td>
-		<%
-		request.setCharacterEncoding("utf-8");
-		String keyword = request.getParameter("keyword");
-		String search = request.getParameter("search");
 	
+		<%
 		try{
-			ArrayList<BoardDto> list = board.getBoardList(keyword, search);
+			if(list != null) {
 			for(BoardDto b : list){
+				
 		%>
 		<tr align=center bgcolor=white height=120%>
 					<td><%=b.getB_num() %></td>
-					<td><a href="Read.jsp" ><%=b.getB_subject() %></a></td>
+					<td><a href="Read.jsp?b_num=<%=b.getB_num()%>" ><%=b.getB_subject() %></a></td>
 					<td><%=b.getB_name() %></td>
 					<td><%=b.getB_regdate() %></td>
 					<td><%=b.getB_count() %></td>
 				
 		</tr>
 			
-	
-			
 		<% 
+				}
+			}
+				else {
+		%>
+						<tr><td>데이터가 없습니다.</td></tr>
+				<%
+				
 			}
 			
 		}
@@ -89,13 +104,13 @@
 		<table border=0 width=527 align=center cellpadding=4 cellspacing=0>
 		<tr>
 			<td align=center valign=bottom>
-				<select name="keyField" size="1">
-					<option value="name"> 이름
-					<option value="subject"> 제목
-					<option value="content"> 내용
+				<select name="keyword" size="1">
+					<option value="b_name"> 이름
+					<option value="b_subject"> 제목
+					<option value="b_content"> 내용
 				</select>
 	
-				<input type="text" size="16" name="keyWord" >
+				<input type="text" size="16" name="searchText" >
 				<input type="button" value="찾기" onClick="check()">
 				<input type="hidden" name="page" value= "0">
 			</td>
