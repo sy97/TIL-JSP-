@@ -55,7 +55,7 @@ function list() {
    </tr>
    <tr>
     <td colspan=4 align=right>
-     <%=board.getB_ip() %>로 부터 글을 남기셨습니다./  조회수 : <%=board.getB_count() %>
+     <%=board.getB_ip() %>로 부터 글을 남기셨습니다./  조회수 : <%=board.getB_count() + 1%>
     </td>
    </tr>
    </table>
