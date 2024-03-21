@@ -64,7 +64,9 @@ function list() {
  <tr>
   <td align=center colspan=2> 
 	<hr size=1>
-	[ <a href="javascript:list()">목 록</a> | 
+	[ <a href="javascript:list()">목 록</a> |
+	<!-- 여기서 가져가는 글번호가 부모글이 되는것. -->
+	<a href="Reply.jsp?b_num=<%=b_num%>">답 변</a> | 
 	<a href="Update.jsp?b_num=<%=b_num%>">수 정</a> |
 	<a href="Delete.jsp?b_num=<%=b_num%>">삭 제</a> ]<br>
   </td>

@@ -231,9 +231,69 @@ public class BoardDao {
 	
 	
 	}
+	
+	//ReplyProc.jsp
+	//답변 달 내용을 전달해야하니까 BoardDto dto로 받기.
+	public void reply(BoardDto dto) {
+		
+		String sql = "insert into tblboard(b_num," +
+				"b_name, b_email, b_homepage, b_subject, b_content, " +
+				"b_pass, b_count, b_ip, b_regdate, pos, depth) " +
+				"values(seq_b_num.nextVal, ?,?,?,?,?,?, 0, ?, sysdate, ?, ?)";
+				try {
+				conn = ds.getConnection();
 
+				stmt = conn.prepareStatement(sql);
+				stmt.setString(1, dto.getB_name());
+				stmt.setString(2, dto.getB_email());
+				stmt.setString(3, dto.getB_homepage());
+				stmt.setString(4, dto.getB_subject());
+				stmt.setString(5, dto.getB_content());
+				stmt.setString(6, dto.getB_pass());
+				stmt.setString(7, dto.getB_ip());
+				stmt.setInt(8, dto.getPos() + 1);
+				stmt.setInt(9, dto.getDepth() + 1);
+				stmt.executeUpdate();
+				}
+				catch(Exception e) {
+				System.out.println("replyBoard : " + e);
+				}
+				finally {
+				freeConn();
+				}
+		
+	}
 	
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	
 
