@@ -7,6 +7,7 @@
 <jsp:useBean id="dao" class="mybean.board.BoardDao"/>
 <%
  	int num = Integer.parseInt(request.getParameter("b_num"));
+	//부모의 글 결과값.
  	BoardDto dto = dao.getBoard(num);
 %>
 <body>
@@ -22,6 +23,10 @@
 <form name=post method=post action="ReplyProc.jsp" >
 <!-- 입력받지않고 넘겨줄것들은 히든태그로.ip저장은 request.getRemoteAddr()-->
 	<input type="hidden" name="b_ip" value="<%=request.getRemoteAddr()%>"/>
+	<!-- 부모 포지션과 뎁스 전달 -->
+	<input type="hidden" name="pos" value="<%=dto.getPos()%>"/>
+	<input type="hidden" name="depth" value="<%=dto.getDepth()%>"/>
+
  <tr>
   <td align=center>
    <table border=0 width=100% align=center>

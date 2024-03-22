@@ -3,15 +3,11 @@ package mybean.board;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
-
-import mybean.dto.Employee;
 
 public class BoardDao {
 	private Connection conn;
@@ -54,33 +50,43 @@ public class BoardDao {
 	private int depth;
 	
 	//PostProc.jsp 
-	public void setBoard(BoardDto board) {
-		String sql = "insert into tblboard(b_num," +
+	public void setBoard(BoardDto dto){
+		String sql = null;
+		try {
+		conn = ds.getConnection();
+		
+		//저장하기 전에 먼저 pos 업데이트.
+		sql = 	"update tblboard set pos = pos + 1";
+		stmt = conn.prepareStatement(sql);
+		stmt.executeUpdate();
+		
+		sql =	"insert into tblboard(b_num," +
 				"b_name, b_email, b_homepage, b_subject, b_content, " +
 				"b_pass, b_count, b_ip, b_regdate, pos, depth) " +
-				"values(seq_b_num.nextVal, ?,?,?,?,?,?, 0, ?, sysdate, 0, 0)";
-			
-			try {
-				//db연결 먼저.
-				stmt = conn.prepareStatement(sql);		
-				
-				//jsp에서 set메서드를 통해 저장했으니까, get메서드로 그 값을 가져온다음에, stmt에 담아서
-				//DB에 저장하기. 
-				stmt.setString(1, board.getB_name());
-				stmt.setString(2, board.getB_email());
-				stmt.setString(3, board.getB_homepage());
-				stmt.setString(4, board.getB_subject());
-				stmt.setString(5, board.getB_content());
-				stmt.setString(6, board.getB_pass());
-				stmt.setString(7, board.getB_ip());
-				stmt.executeUpdate();
-	
-			}
-			
-			catch(Exception err){System.out.println("setBoard()에서 오류 : " + err);}
-			finally {freeConn();}
+				"values(seq_b_num.nextVal, ?,?,?,?,?,?, 0, ?, sysdate, ?, ?)";		
 		
+		stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1, dto.getB_name());
+		stmt.setString(2, dto.getB_email());
+		stmt.setString(3, dto.getB_homepage());
+		stmt.setString(4, dto.getB_subject());
+		stmt.setString(5, dto.getB_content());
+		stmt.setString(6, dto.getB_pass());
+		stmt.setString(7, dto.getB_ip());
+		stmt.setInt(8, dto.getPos());
+		stmt.setInt(9, dto.getDepth());
+		
+		stmt.executeUpdate();
 		}
+		catch(Exception e) {
+		System.out.println("setBoard : " + e);
+		}
+		finally {
+		freeConn();
+		}
+
+}
 	
 	//read.jsp, update.jsp
 	public BoardDto getBoard(int num) {
@@ -153,7 +159,7 @@ public class BoardDao {
 		
 		try {
 			if(searchText==null || searchText.isEmpty()){
-				sql = "select * from tblBoard order by b_num desc";
+				sql = "select * from tblBoard order by pos";
 			}
 		
 			else {
@@ -177,7 +183,6 @@ public class BoardDao {
 			board.setB_pass(rs.getString("b_pass"));
 			board.setB_count(rs.getInt("b_count"));
 			board.setB_regdate(rs.getString("b_regdate"));
-			board.setPos(rs.getInt("pos"));
 			board.setDepth(rs.getInt("depth"));
 		
 			
@@ -234,16 +239,22 @@ public class BoardDao {
 	
 	//ReplyProc.jsp
 	//답변 달 내용을 전달해야하니까 BoardDto dto로 받기.
-	public void reply(BoardDto dto) {
-		
-		String sql = "insert into tblboard(b_num," +
-				"b_name, b_email, b_homepage, b_subject, b_content, " +
-				"b_pass, b_count, b_ip, b_regdate, pos, depth) " +
-				"values(seq_b_num.nextVal, ?,?,?,?,?,?, 0, ?, sysdate, ?, ?)";
+	public void replyBoard(BoardDto dto) {
+		String sql = null;
 				try {
-				conn = ds.getConnection();
-
+				//이 dto에 있는건 reply.jsp에서 히든태그로 넘겨준 부모의 pos.
+				sql = "update tblBoard set pos = pos + 1 where pos > ?";
 				stmt = conn.prepareStatement(sql);
+				stmt.setInt(1, dto.getPos());
+				stmt.executeUpdate();
+				
+				sql =	"insert into tblboard(b_num," +
+						"b_name, b_email, b_homepage, b_subject, b_content, " +
+						"b_pass, b_count, b_ip, b_regdate, pos, depth) " +
+						"values(seq_b_num.nextVal, ?, ?, ?, ?, ?, ?, 0, ?, sysdate, ?, ?)";		
+				
+				stmt = conn.prepareStatement(sql);
+				
 				stmt.setString(1, dto.getB_name());
 				stmt.setString(2, dto.getB_email());
 				stmt.setString(3, dto.getB_homepage());
@@ -251,8 +262,11 @@ public class BoardDao {
 				stmt.setString(5, dto.getB_content());
 				stmt.setString(6, dto.getB_pass());
 				stmt.setString(7, dto.getB_ip());
+				
+				//지금 여기있는 pos와 depth는 아까 넘어온 부모의 pos와 depth.
 				stmt.setInt(8, dto.getPos() + 1);
 				stmt.setInt(9, dto.getDepth() + 1);
+				
 				stmt.executeUpdate();
 				}
 				catch(Exception e) {
@@ -264,6 +278,16 @@ public class BoardDao {
 		
 	}
 	
+	
+	public String useDepth(int depth) {
+		String result = "";
+		//depth*3은 공백을 얼마나 줄것인지.
+		for(int i = 0; i<depth*3; i++) {
+			result += "&nbsp;";
+		}
+		
+		return result;
+	}
 	
 }
 

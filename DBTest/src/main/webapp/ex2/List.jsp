@@ -79,7 +79,7 @@
 				<table border=0 width=100% cellpadding=3 cellspacing=0>
 					<tr align=center bgcolor=#D0D0D0 height=120%>
 						<td> 번호 </td>
-						<td> 제목 </td>
+						<td align="left"> 제목 </td>
 						<td> 이름 </td>
 						<td> 날짜 </td>
 						<td> 조회수 </td>
@@ -96,7 +96,19 @@
 		%>
 		<tr align=center bgcolor=white height=120%>
 					<td><%=dto.getB_num() %></td>
-					<td><a href="Read.jsp?b_num=<%=dto.getB_num()%>" ><%=dto.getB_subject() %></a></td>
+					<td align="left">
+					<%
+					if(dto.getDepth() > 0) {
+					%>	
+					<img src="re.gif" /><%=dao.useDepth(dto.getDepth()) %><a href="Read.jsp?b_num=<%=dto.getB_num()%>" ><%=dto.getB_subject() %></a></td>
+					<% 
+					}
+					else {
+					%>
+					<%=dao.useDepth(dto.getDepth()) %><a href="Read.jsp?b_num=<%=dto.getB_num()%>" ><%=dto.getB_subject() %></a></td>
+					<%
+					}
+					%>
 					<td><%=dto.getB_name() %></td>
 					<td><%=dto.getB_regdate() %></td>
 					<td><%=dto.getB_count() %></td>
