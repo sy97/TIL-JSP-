@@ -12,6 +12,7 @@ public class DepartmentBean {
 		if(depart.equals("kor")){
 			advice.add("1. 국어를 잘해야한다.");
 			advice.add("2. 국어를 사랑해야한다.");
+			advice.add("3. 국어를 좋아해야한다..");
 		
 		}
 		else if(depart.equals("eng")){
