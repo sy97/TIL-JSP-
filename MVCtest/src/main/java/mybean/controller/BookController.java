@@ -65,8 +65,9 @@ public class BookController extends HttpServlet {
 		
 		else if(command.equals("del")) {
 			url = "/WEB-INF/view/bookshop.jsp";
+			int index = Integer.parseInt(req.getParameter("index"));
 			if(bookList != null && !bookList.isEmpty()) {
-			bookList.remove(0);
+			bookList.remove(index);
 			}
 		}
 		//그래서 각 요청페이지로 보내주기.

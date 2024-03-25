@@ -15,13 +15,13 @@
 	<b>현재 주문한 도서</b>
 	<table border="1">
 		<tr>
-			<th>도서 제목</th><th>작가</th><th>가격</th><th>수량</th>
+			<th width="100px">도서 제목</th><th width="100px">작가</th><th>가격</th><th>수량</th><th>삭제</th>
 		</tr>
 		<tr>	
 			<%
 			if(bookList != null){
-			for(Book b : bookList){
-				
+			for(int i = 0; i < bookList.size(); i++){
+				Book b = bookList.get(i);
 			%>
 		<tr>
 			<td><%=b.getTitle() %></td>
@@ -31,6 +31,7 @@
 			<td>
 				<form action="/MVCtest/book?command=del" method="post">
 				<input type="submit" value="삭제"/>
+				<input type="hidden" name="index" value=<%=i %> />
 				</form>
 			</td>
 		</tr>	

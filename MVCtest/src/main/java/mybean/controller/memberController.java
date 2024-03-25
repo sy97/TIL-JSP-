@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mybean.model.Book;
+import mybean.model.CompleteCommand;
+import mybean.model.ConfirmCommand;
+import mybean.model.ICommand;
+import mybean.model.RegisterCommand;
 import mybean.model.member;
 
 @WebServlet("/member")
@@ -23,6 +27,7 @@ public class memberController extends HttpServlet{
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		/*
 		String command = req.getParameter("command");
 		String url ="";
 		
@@ -54,6 +59,31 @@ public class memberController extends HttpServlet{
 		RequestDispatcher view = req.getRequestDispatcher(url);
 		view.forward(req, resp);
 		
+		*/
+		
+		//커맨드패턴 사용하여 코드변경
+		String command = req.getParameter("command");
+		String url ="";
+		//인터페이스 임포트
+		ICommand icmd = null;
+		
+		//복잡한 코드들을 각각의 클래스로 바꿈.
+		//변수를 하나로 하기위해 인터페이스 만든것.안그러면 각각 객체 생성 다 다르게해줘야함.
+		if(command.equals("confirm")) {
+			icmd = new ConfirmCommand();
+			
+		}
+		else if(command.equals("complete")) {
+			icmd = new CompleteCommand();
+		}
+		
+		else if(command.equals("register")) {
+			icmd = new RegisterCommand();
+		}
+		
+		url = (String)icmd.processCommand(req, resp);
+		RequestDispatcher view = req.getRequestDispatcher(url);
+		view.forward(req, resp);
 	}
 
 	
