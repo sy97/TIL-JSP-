@@ -44,12 +44,12 @@ public class BookController extends HttpServlet {
 
 		//그래서 각 요청에 따라 처리해주기.
 		if(command.equals("shop")) {
-			url = "bookshop.jsp";
+			url = "/WEB-INF/view/bookshop.jsp";
 			
 			
 		}
 		else if(command.equals("cart")) {
-			url = "bookshop.jsp";
+			url = "/WEB-INF/view/bookshop.jsp";
 			
 			if(bookList == null){
 				bookList = new ArrayList<Book>();
@@ -60,13 +60,20 @@ public class BookController extends HttpServlet {
 		}
 		
 		else if(command.equals("checkout")) {
-			url = "checkout.jsp";
+			url = "/WEB-INF/view/checkout.jsp";
 		}
 		
+		else if(command.equals("del")) {
+			url = "/WEB-INF/view/bookshop.jsp";
+			if(bookList != null && !bookList.isEmpty()) {
+			bookList.remove(0);
+			}
+		}
 		//그래서 각 요청페이지로 보내주기.
 		RequestDispatcher view = req.getRequestDispatcher(url);
 		view.forward(req, resp);
 		
+	
 		
 
 		}	
@@ -91,6 +98,8 @@ public class BookController extends HttpServlet {
 		return dto;
 		
 	}
+	
+	
 	
 	
 

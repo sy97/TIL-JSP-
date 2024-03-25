@@ -1,5 +1,6 @@
 <%@page import="mybean.model.Book"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="java.util.StringTokenizer"%>
 <%@ page contentType="text/html; charset=utf-8" %>
 <!DOCTYPE html>
 <html>
@@ -7,22 +8,16 @@
 <meta charset="utf-8">
 <title>Insert title here</title>
 </head>
-<jsp:useBean id="dto" class="mybean.model.Book" />
 <%
-//세션에 담아둔걸 꺼내오기.
-ArrayList<Book> bookList = (ArrayList)session.getAttribute("bookList");
-int totalprice = 0;
-	for(Book b : bookList){
-		totalprice += Integer.parseInt(b.getPrice()) * (b.getQuantity());
-	}
+ ArrayList<Book> bookList = (ArrayList<Book>)session.getAttribute("bookList");
 %>
 <body>
-	<h1>도서 구매 주문 페이지</h1>
-	<b>주문한 도서</b>
+	<b>현재 주문한 도서</b>
 	<table border="1">
 		<tr>
 			<th>도서 제목</th><th>작가</th><th>가격</th><th>수량</th>
 		</tr>
+		<tr>	
 			<%
 			if(bookList != null){
 			for(Book b : bookList){
@@ -33,21 +28,24 @@ int totalprice = 0;
 			<td><%=b.getAuthor() %></td>
 			<td><%=b.getPrice() %></td>
 			<td><%=b.getQuantity() %></td>
+			<td>
+				<form action="/MVCtest/book?command=del" method="post">
+				<input type="submit" value="삭제"/>
+				</form>
+			</td>
 		</tr>	
 			
-			<%
-			}
+			<%	
+				}
 			}
 			%>
 		</tr>
-		<tr>
-		</tr>
 	</table>
 	<br>
-	<b>전체 구입액수 : <%=totalprice %> 원</b>
-	<br>
-	<form method="post">
-		<input type="submit" value="결제" />
+	
+	<!-- 구매 페이지로 -->
+	<form action="/MVCtest/book?command=checkout" method="post">
+		<input type="submit" value="체크아웃" />
 	</form>
 </body>
 </html>
