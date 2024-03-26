@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import mybean.model.Book;
 import mybean.model.CompleteCommand;
 import mybean.model.ConfirmCommand;
+import mybean.model.FactoryCommand;
 import mybean.model.ICommand;
 import mybean.model.RegisterCommand;
 import mybean.model.member;
@@ -69,6 +70,7 @@ public class memberController extends HttpServlet{
 		
 		//복잡한 코드들을 각각의 클래스로 바꿈.
 		//변수를 하나로 하기위해 인터페이스 만든것.안그러면 각각 객체 생성 다 다르게해줘야함.
+		/*
 		if(command.equals("confirm")) {
 			icmd = new ConfirmCommand();
 			
@@ -81,9 +83,24 @@ public class memberController extends HttpServlet{
 			icmd = new RegisterCommand();
 		}
 		
+		
+		
 		url = (String)icmd.processCommand(req, resp);
 		RequestDispatcher view = req.getRequestDispatcher(url);
 		view.forward(req, resp);
+		*/
+		
+		//객체 생성해주는 공장이 어디있는지만 알려주면됨.
+		//싱글톤 객체이기 때문에 new로 만들 수 없음.
+		FactoryCommand factory = FactoryCommand.newInstance();
+		icmd = factory.createInstance(command);
+		
+		
+		
+		url = (String)icmd.processCommand(req, resp);
+		RequestDispatcher view = req.getRequestDispatcher(url);
+		view.forward(req, resp);
+		
 	}
 
 	

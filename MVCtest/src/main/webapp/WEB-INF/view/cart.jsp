@@ -15,7 +15,7 @@
 	<b>현재 주문한 도서</b>
 	<table border="1">
 		<tr>
-			<th width="100px">도서 제목</th><th width="100px">작가</th><th>가격</th><th>수량</th><th>삭제</th>
+			<th width="150px">도서 제목</th><th width="100px">작가</th><th width="80px">가격</th><th>수량</th><th>삭제</th>
 		</tr>
 		<tr>	
 			<%
