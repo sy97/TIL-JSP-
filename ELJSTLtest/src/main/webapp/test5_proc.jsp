@@ -29,6 +29,12 @@
 		}
 	%>
 	<h2>EL</h2>
+	<!-- gt(=greater than) -->
+	<!-- 둘다양수면 true 라고 나옴. -->
+	${(param.num1 gt 0) and (param.num2 gt 0)}
 	
+	<h2>두 숫자가 모두 같은 숫자인가? (예/아니오로 대답)</h2>
+	<h2>EL로만</h2>
+	${(param.num1 eq param.num2)?"예" : "아니오"}
 </body>
 </html>
