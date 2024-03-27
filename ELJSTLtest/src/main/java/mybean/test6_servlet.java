@@ -51,6 +51,14 @@ public class test6_servlet extends HttpServlet {
 		//req로 담으려면 먼저 req로 보내줘야지!
 		req.setAttribute("movies", movies);
 		
+		//원래는 DB연동해서 댓글 가져와야하는데 지금은 가져왔다고 가정.
+		String[] comment = {" 이 사이트는 매우 훌륭합니다.",
+				"정말 좋은 사이트인듯...",
+				"자주 방문할게요."
+		};
+		
+		req.setAttribute("com", comment);
+		
 		//RequestDispatcher view = req.getRequestDispatcher("test7.jsp");
 		RequestDispatcher view = req.getRequestDispatcher("core/test4.jsp");
 		view.forward(req, resp);
