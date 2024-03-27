@@ -40,7 +40,7 @@ public class test6_servlet extends HttpServlet {
 		
 		//여기에 모모의 정보를 저장시켜줘야함.
 		kang.setDog(momo);
-		
+	
 		req.setAttribute("person", kang);
 		
 		ArrayList<String> movies = new ArrayList<String>();
