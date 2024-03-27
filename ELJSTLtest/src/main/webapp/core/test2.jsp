@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,16 +46,59 @@
 		}
 	%>
 	<br><br>
+
 	
-	<c:set var="num1" value="${param.num1}" />
-	<c:set var="num2" value="${param.num2}" />
-	<c:if test="${num1 gt num2 }">
+	<!-- param으로 넘어오는건 바로 써줄 수 있음. 
+	null값 예외처리도 하지 않아도됨. el은 null값 에러가 안나기 때문.-->
+	<c:if test="${num1 > num2 }">
 		<b>더 큰 값은 ${num1 }</b>
 	</c:if>
 	
-	<c:if test="${num2 gt num1 }">
+	<c:if test="${num2 < num1 }">
 		<b>더 큰 값은 ${num2 }</b>
 	</c:if>
+	
+	<!-- 다중조건 -->
+	
+	<c:choose>
+		<c:when test="${param.num1 > param.num2 }">
+			${param.num1 }이 크다.<br>
+		</c:when>
+		<c:when test="${param.num1 < param.num2 }">
+			${param.num2 }이 크다.<br>
+		</c:when>	
+		<c:otherwise>
+			<!-- 값이 비어있지 않을 때만 출력 -->
+			<c:if test="${!empty param.num1 }">
+				똑같다.
+			</c:if>
+		</c:otherwise>
+	</c:choose>
 			
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
