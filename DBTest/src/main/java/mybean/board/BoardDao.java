@@ -15,6 +15,18 @@ public class BoardDao {
 	private ResultSet rs;
 	private DataSource ds;
 	
+	private int totalRecord = 0; //총 글의 갯수
+	private int numPerPage = 5; //한 페이지당 보여질 글의 갯수
+	private int totalPage = 0; // 총 페이지 수
+	private int nowPage = 0; //현재 페이지번호
+	private int beginPerPage = 0; //페이지별 시작번호. 1페이지에 1,2,3 있으면 2페이지는 4,5,6으로 나와야함. 현재페이지 번호 * 보여질 글의 갯수
+	private int pagePerBlock = 3; //블럭당 페이지 수. 한 화면에 보여지는 페이지수.
+	private int totalBlock = 0; //총 블럭 수
+	private int nowBlock = 0; //현재 블럭. 첫번째 블럭이면 123, 두번째 블럭이면 456
+	
+	//0으로 되어있는 것들은 우리가 계산해줘야하는것들.
+	
+	
 	public BoardDao() {
 	//어떤 DBCP를 이용할것인가.
 		try {

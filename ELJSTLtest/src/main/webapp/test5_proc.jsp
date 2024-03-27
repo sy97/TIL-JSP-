@@ -36,5 +36,10 @@
 	<h2>두 숫자가 모두 같은 숫자인가? (예/아니오로 대답)</h2>
 	<h2>EL로만</h2>
 	${(param.num1 eq param.num2)?"예" : "아니오"}
+	
+	<hr>
+	<!-- 삼항 연산자. prapm.id가 비어잇다면 guest로 출력. -->
+	안녕하세요. ${empty param.id? "guest" : param.id}님! 환영합니다. 
+	
 </body>
 </html>
