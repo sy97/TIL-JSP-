@@ -31,6 +31,18 @@ public class test6_servlet extends HttpServlet {
 		String[] favoriteFoods = {"냉면", "돼지갈비", "순대국", "콩국수", "파스타"};
 		req.setAttribute("foods", favoriteFoods);
 		
+		Person kang = new Person();
+		Dog momo = new Dog();
+		
+		kang.setName("강소영");
+		momo.setName("모모");
+		
+		//여기에 모모의 정보를 저장시켜줘야함.
+		kang.setDog(momo);
+		
+		req.setAttribute("person", kang);
+		
+		
 		RequestDispatcher view = req.getRequestDispatcher("test7.jsp");
 		view.forward(req, resp);
 		

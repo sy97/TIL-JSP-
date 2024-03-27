@@ -20,6 +20,9 @@
 	${foods[2]}
 	${foods[3]}
 	${foods[4]}
+	<hr>
 	
+	모모의 주인 이름 : ${person.name }<br>
+	강소영의 강아지 이름 : ${person.dog.name}<br>
 </body>
 </html>
