@@ -1,6 +1,7 @@
 package mybean;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,8 +43,16 @@ public class test6_servlet extends HttpServlet {
 		
 		req.setAttribute("person", kang);
 		
+		ArrayList<String> movies = new ArrayList<String>();
+		movies.add("파묘");
+		movies.add("해리포터");
+		movies.add("라스트 홀리데이");
 		
-		RequestDispatcher view = req.getRequestDispatcher("test7.jsp");
+		//req로 담으려면 먼저 req로 보내줘야지!
+		req.setAttribute("movies", movies);
+		
+		//RequestDispatcher view = req.getRequestDispatcher("test7.jsp");
+		RequestDispatcher view = req.getRequestDispatcher("core/test4.jsp");
 		view.forward(req, resp);
 		
 		
