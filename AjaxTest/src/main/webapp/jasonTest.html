@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Jason</title>
+</head>
+<body>
+<script>
+	window.onload = function(){
+		//map이 검색속도가 빠름. 가독성도 좋아짐 키값이 문자로 저장가능해서.
+		let map1 = {ko:"한국", fr:"프랑스", uk:"영국"};
+		alert(map1.ko + ", " + map1.fr + ", " + map1.uk);
+	
+		let arr = ["한국", "프랑스", "영국"];
+		alert(arr[0] + ", " + arr[1] + ", " + arr[2]);
+		
+		let mix1 = {name:"홍길동", food:["짜장면","짬뽕","볶음밥"],
+				color:["빨강", "파랑", "노랑"]};
+		alert(mix.name + "님이 좋아하는 음식은 " + mix1.food.length + 
+				"개이고 그 중에 첫번째 음식은" + mix1.food[0] + "입니다.");
+	}
+</script>	
+</body>
+</html>

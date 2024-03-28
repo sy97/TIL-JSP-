@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<script>
+function fnBook(){
+	let httpRequest = new XMLHttpRequest();
+
+	httpRequest.open("GET","basic4.jsp", true);	
+	httpRequest.onreadystatechange = function(){
+		if(httpRequest.readyState == 4){
+			if(httpRequest.status == 200){
+				let xmlDoc = httpRequest.responseXML;
+				
+				//우리가 만든 book태그 다 가져오기.
+				let books = xmlDoc.getElementsByTagName("book");
+				
+				let msg = "책 권수 : " + books.length + "권<br>";
+				
+				for(let i =0; i < books.length ; i++){
+					let book = books.item(i);
+					let title = book.getElementsByTagName("title")
+								.item(0).firstChild.nodeValue;
+					let author = book.getElementsByTagName("author")
+								.item(0).firstChild.nodeValue;
+					
+					msg += title + "(" + author + ")<br>";
+					
+				}
+				
+				document.getElementById("bookList").innerHTML = msg;
+				
+			}
+			else{
+				alert(httpRequest.status);
+			}
+		}
+	}		
+	
+	httpRequest.send(null);
+	
+}
+
+
+</script>
+</head>
+<body onload="fnBook()">
+	<h2>책 정보</h2>
+	<div id="bookList"></div>
+</body>
+</html>
