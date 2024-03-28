@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<script>
+	function fnMember(){
+	let HttpRequest = new XMLHttpRequest();
+	let userNum = document.getElementById("userNum").value;
+	let userName = document.getElementById("userName");
+	let userGender = document.getElementById("userGender");
+	let userAddr = document.getElementById("userAddr");
+	let userTel = document.getElementById("userTel");
+	
+	let httpRequest=new XMLHttpRequest();
+	httpRequest.open("GET","basic3.jsp?userNum=" + userNum, true);
+	
+
+	httpRequest.onreadystatechange = function(){
+
+		if(httpRequest.readyState == 4){
+			if(httpRequest.status == 200){
+				let data = httpRequest.responseText;
+				
+				let list = data.split(",");
+				
+					userName.value = list[0];
+					userGender.value= list[1];
+					userAddr.value= list[2];
+					userTel.value = list[3];
+				
+			}
+			else{
+				alert(httpRequest.status);
+			}
+		}
+	}		
+	
+	httpRequest.send(null);
+	
+}
+	
+</script>
+</head>
+<body>
+	<h2>회원 정보 조회</h2>
+	<!-- name은 서버로 전송할때, id는 자바스크립트에서 쉽게 접근하기위해 -->
+	회원 번호 : <input type="text" name="userNum" id="userNum" onkeyup="fnMember()"/><br><br>
+	이름 : <input type="text" name="userName" id="userName" /><br><br>
+	성별 : <input type="text" name="userGender" id="userGender" /><br><br>
+	주소 : <input type="text" name="userAddr" id="userAddr" /><br><br>
+	전화번호 : <input type="text" name="userTel" id="userTel" /><br><br>
+</body>
+</html>

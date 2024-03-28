@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>AJAX �ǽ��� ���� basic.html</title>
+<meta charset="utf-8">
+<title>AJAX 실습을 위한 basic.html</title>
 <script>
 	function fnSubmit(){
 		let name = document.getElementById("name").value;
+		let div = document.getElementById("display");
 
-		//������ �����ִ� ��ü. �̰� �־ �ڹٽ�ũ��Ʈ�� ������ ������ �����Ѱ�.
+		//서버로 보내주는 객체. 이게 있어서 자바스크립트가 서버랑 연결이 가능한것.
  		let httpRequest=new XMLHttpRequest();
 		httpRequest.open("GET","basic1.jsp?name=" + name,true);
 		
-		//Ŭ���̾�Ʈ�� ���� �õ��ϰ�, �����ͺ�����, ������ �޾ƿ��� �� ���°� ��� �ٲ�µ� �װ� �����ϰ� �ش� �Լ��� ȣ�����ִ� ��.
+		//클라이언트가 연결 시도하고, 데이터보내고, 데이터 받아오고 등 상태가 계속 바뀌는데 그걸 감지하고 해당 함수를 호출해주는 것.
 		httpRequest.onreadystatechange = function(){
 			
-			//������ �����κ��� �����͸� �ް�, ���������� ���� �Ǿ��� ���� ó���� �ϰڴ�.
+			//완전히 서버로부터 데이터를 받고, 정상적으로 연결 되었을 때만 처리를 하겠다.
 			if(httpRequest.readyState == 4){
 				if(httpRequest.status == 200){
-					//�����κ��� ���� �޾ƿ°� Ȯ���ϱ�. basic1.jsp�� �������� �ٲ�Ծƴ�. 
-					alert(httpRequest.responseText);
+					//서버로부터 응답 받아온거 확인하기. basic1.jsp로 페이지가 바뀐게아님. 
+					//alert(httpRequest.responseText);
+					
+					//서버로부터 받은 데이터를 div에 끼워넣기만해주면됨.
+					//jsp로 이동하지않고 , html페이지에서 데이터만 서버로부터 받아온것.
+					let data = httpRequest.responseText;
+					div.innerHTML = data;
 				}
 				else{
 					alert(httpRequest.status);
@@ -34,12 +40,11 @@
 </script>
 </head>
 <body>
-<!-- form�±׵� ����, submit�� �ƴ϶� button�ε� ������ ��� �ѱ���?
-�츮�� ���ݱ��� �� ����� ����� ��û��. ���ݺ��� �Ϸ��°� �񵿱�� ��û.
-�̰� ���ټ� �ִ°� �ڹٽ�ũ��Ʈ -->
-<!-- �� ���۹�ư�� �̺�Ʈ�� �����������ʰ�, ��Ŀ���� ������ ��û �޾ƿ� �� �ְ� ��������. �̰Թٷ� �񵿱��. -->
-	<input type="text" name="name" id="name" onchange = "fnSubmit()"/>
-	<input type="button" value="����" onclick="fnSubmit()"/>
+<!-- form태그도 없고, submit이 아니라 button인데 서버로 어떻게 넘기지?
+우리가 지금까지 한 방식은 동기식 요청임. 지금부터 하려는건 비동기식 요청.
+이걸 해줄수 있는건 자바스크립트 -->
+	<input type="text" name="name" id="name" />
+	<input type="button" value="전송" onclick="fnSubmit()"/>
 	<hr/>
 	<div id="display"></div>
 </body>
